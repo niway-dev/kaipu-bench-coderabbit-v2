@@ -1,0 +1,8 @@
+# Benchmark copy: every pull request targets replay/pr-<n>/base, never the default branch.
+# Without this, CodeRabbit skips auto review ("auto reviews are disabled on base branches
+# other than the default branch").
+reviews:
+  auto_review:
+    enabled: true
+    base_branches:
+      - ".*"
