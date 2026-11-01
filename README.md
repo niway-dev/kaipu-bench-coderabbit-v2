@@ -18,10 +18,13 @@ holds every run on `head`, `head-r2`, `head-r3`, … branches that point at the 
 **What changed from round 1.** Same commits, same pull request titles and bodies, same model
 (Claude Opus 5.5 at effort `high` where the reviewer lets us choose). Two setup fixes:
 
-- CodeRabbit skipped every round-1 pull request because their base is not the default branch, and
-  each review had to be started by hand with `@coderabbitai review`. Here `.coderabbit.yaml` on
-  `main` sets `reviews.auto_review.base_branches: [".*"]`, and the same pattern is set in the
-  repository's CodeRabbit settings, so reviews start on their own.
+- CodeRabbit skips auto review on every pull request here, in both rounds. It reads
+  `.coderabbit.yaml` from the pull request's **head commit**, and kaipu-record's own file at that
+  commit limits auto review to `production` and `master`; the repository YAML also overrides the
+  CodeRabbit UI settings. The `.coderabbit.yaml` on `main` (`base_branches: [".*"]`) is therefore
+  never read. Changing the replayed commits would break the byte-identical diff, and kaipu's file
+  is exactly what CodeRabbit would use on kaipu-record, so each review is started with
+  `@coderabbitai review` instead, as in round 1.
 - Pull requests are opened only after the reviewer apps are installed and the secrets exist, so
   each reviewer sees the `opened` event, as it would on a real repository.
 
